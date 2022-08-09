@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:email="http://www.mulesoft.org/schema/mule/email" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="12d9d264-81a7-4721-9489-72038f99a5a9" >
+		<http:listener-connection host="localhost" port="8033" />
+	</http:listener-config>
+	<email:smtp-config name="Email_SMTP" doc:name="Email SMTP" doc:id="6f800b0b-5be1-4ac6-b670-d179d312a1b4" >
+		<email:smtp-connection host="smtp.gmail.com" port="587" user="padigabalakrishnareddy1998@gmail.com" password="1234@Bala" >
+			<email:properties >
+				<email:property key="mail.smtp.starttls.enable" value="true" />
+			</email:properties>
+		</email:smtp-connection>
+	</email:smtp-config>
+	<flow name="smtpFlow" doc:id="26426e55-4b22-4867-b0d4-0929c24e7275" >
+		<http:listener doc:name="Listener" doc:id="c85d777a-0b56-48fa-b0f3-d814827962d3" config-ref="HTTP_Listener_config" path="/SMTP"/>
+		<logger level="INFO" doc:name="Logger" doc:id="25443376-98eb-45c0-a0d2-3def3f744ca9" message="#[payload]"/>
+		<email:send doc:name="Send" doc:id="b1529d27-1939-4793-9a3d-ad0a351db8a1" config-ref="Email_SMTP" fromAddress="balakrishnareddy1998@gmail.com" subject="mail send to mule soft to cliant">
+			<email:to-addresses >
+				<email:to-address value="padigabalakrishnareddy212@gmail.com" />
+			</email:to-addresses>
+			<email:cc-addresses >
+				<email:cc-address value="padigabalakrishnareddy212@gmail.com" />
+			</email:cc-addresses>
+			<email:bcc-addresses >
+				<email:bcc-address value="padigabalakrishnareddy212@gmail.com" />
+			</email:bcc-addresses>
+		</email:send>
+	</flow>
+</mule>
